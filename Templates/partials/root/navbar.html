@@ -12,9 +12,13 @@
           
           <ul class="right hide-on-med-and-down">
 
+            {% if user.is_authenticated %}
             <li><a href="/">Dashboard</a></li>
             <li><a href="/logout/">Logout</a></li>
-
+              
+            {% else %}
+              
+            {% endif %}
 
               <!-- <li><a href="#">Courses</a></li> -->
                
@@ -30,20 +34,7 @@
 </div>
 
 
-<!-- PYTHON -->
-<ul  id="python" class="dropdown-content" style="min-width: 200px;">
-  <li><a href="">Python How To</a></li>
-  <li class="divider"></li>
-  <li><a href="">Cyber Stuff</a></li>
-</ul>
-<!--  DJANGO -->
-<ul  id="django" class="dropdown-content" style="min-width: 200px;">
-  <li><a href="">Django + Ajax </a></li>
-  <li class="divider"></li>
-  <li><a href="">Django How To</a></li>
-</ul>
-
-
+ 
 
 
 
@@ -55,19 +46,14 @@
 
 
 <ul style="width: 250px;" class="sidenav" id="mobile-demo">
-  <li style="padding: 0px;margin: 0px;"><div class="user-view">
-    <div class="background">
-      <img style="width: 200px;width: 250px;" src="https://news.efinancialcareers.com/binaries/content/gallery/efinancial-careers/articles/2019/03/programmer.jpg">
-    </div>
-    <a href="#user"><img class="circle" src="https://icon-library.com/images/icon-programmer/icon-programmer-14.jpg"></a>
-    <a href="#name" class="white-text name">Mashood ur Rehman</a>
-    <a href="#email" class="white-text email">mashoodurrehmanofficial@gmail.com</a>
-  </div></li>
-  <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
-  <li><a href="#!">Second Link</a></li>
-  <li><div class="divider"></div></li>
-  <li><a class="subheader">Subheader</a></li>
-  <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+  {% if user.is_authenticated %}
+  <li><a href="/">Dashboard</a></li>
+  <li><a href="/logout/">Logout</a></li>
+    
+  {% else %}
+    
+  {% endif %}
+  
 </ul>
  
 
