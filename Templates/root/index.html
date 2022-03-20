@@ -23,6 +23,7 @@
                     <th>Driver Name</th>
                     <th>Taxi Number</th>
                     <th>Balance</th>
+                    <th>Owed Amount</th>
                     <th>Rent Deducted Today</th>
                     <th>Paid Today</th>
                     <th>Actions</th>
@@ -35,6 +36,7 @@
                     <td> <a href="/driver_listing/edit_driver/{{driver.id}}">{{driver.name}}</a> </td>
                     <td> {{driver.taxi_number}} </td>
                     <td> {{driver.balance}} </td>
+                    <td> {{driver.owed}} </td>
                     <td> 
                         {% if driver.last_rent_deduction_date|date:'m/d/Y' ==  today_date %}
                             <i class="material-icons green-text">check_circle</i>
