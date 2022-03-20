@@ -118,7 +118,10 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/Static/'
+STATIC_URL = '/Static/' 
+STATIC_ROOT = '/home/wshii/wayne-django-payment-tracker'
+
+
  
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'Static')
