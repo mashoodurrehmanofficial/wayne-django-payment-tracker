@@ -1,0 +1,161 @@
+{% extends 'base.html' %}v
+{% block 'mainbody' %}
+
+
+<div style="margin: 1%">
+    <div class="z-depth-2" style="border-radius: 10px;;padding: 2%;display:flex;justify-content:center;flex-direction: column;">
+        <!-- Header -->
+        <div>
+            <div class="left">
+                <h5>
+                    {% if required_driver %}
+                    Update Driver Data
+                    
+                    {% else %}
+                    Add new  Driver 
+                      
+                    {% endif %}
+                    
+                </h5>
+            </div>
+            <div class="right">
+                {% if required_driver %} 
+                    <a id="driver_delete_btn" href="/driver_listing/delete_driver/{{required_driver.id}}" class="btn red"> Delete Driver Record </a>
+                {% endif %}
+            </div>
+
+        </div>
+
+
+        <!-- Body -->
+      
+        <div>
+            <fieldset>
+                <legend>Basic Information</legend>
+
+                <form action="" method="post"> {% csrf_token %}
+                    <div class="row"> 
+                        <div class="input-field col s12 l4 m4">
+                            <input id="name" type="text" name="name" class="validate" value="{{required_driver.name}}">
+                            <label for="name">Driver Name</label>
+                        </div>
+                        <div class="input-field col s12 l4 m4">
+                            <input id="taxi_number" type="text" name="taxi_number" class="validate" value="{{required_driver.taxi_number}}">
+                            <label for="taxi_number">Taxi Number</label>
+                        </div>
+                        <div class="input-field col s12 l4 m4">
+                            <input id="balance" type="number" name="balance" class="validate" value="{{required_driver.balance}}">
+                            <label for="balance">Balance</label>
+                        </div>  
+                    </div> 
+                    
+                    <button class="green btn right">
+                        {% if required_driver %}
+                            Save Information
+                        {% else %}
+                          Add new Driver
+                        {% endif %}
+                        
+                    </button>
+
+                </form>
+            </fieldset>
+
+
+
+
+
+
+{% if required_driver %}
+     <fieldset>
+                <legend>Payments</legend>
+
+                <input id="payment_date" type="text" class="datepicker" value="{{today_date}}">
+
+                <div style="display:flex;flex-direction: row;justify-content:space-evenly;"> 
+                    <!-- Payment/Expenses Methods --> 
+                    <!-- Method 1 - Deduct Price -->
+                    <fieldset class="full_width">
+                        <legend>Deduct Rent</legend>
+                        <div > 
+                            <div class="input-field">
+                                <input id="rent" type="number" name="rent" class="validate" value="60">
+                                <label for="rent">Rent</label>
+                            </div>
+                            <button id="deduct_rent_btn" class="green btn right full_width">Deduct Rent</button>
+                        </div>
+                    </fieldset>
+
+                    
+                    <!-- Method 2 - Pay the Driver -->
+                    <fieldset class="full_width">
+                        <legend>Pay the Driver</legend>
+                        <div> 
+                            <div class="input-field ">
+                                <input id="paid_amount" type="number" name="paid_amount" class="validate" value="100">
+                                <label for="paid_amount">Pay Driver</label>
+                            </div>
+                            <button id="pay_driver_btn" class="green btn right full_width">Pay Driver</button>
+                        </div>
+                    </fieldset>
+                    
+
+                
+
+                </div>
+            </fieldset>
+
+{% else %}
+  
+{% endif %}
+
+
+         
+        </div>
+
+
+
+    </div>
+</div> 
+
+
+{% endblock 'mainbody' %}
+{% block 'js' %}
+
+
+<script>
+$("#pay_driver_btn").click(function(e){
+    var paid_amount = $("#paid_amount").val()
+    var payment_date = $("#payment_date").val()
+    var required_driver_id = "{{required_driver.id}}" 
+    $.ajax({
+        url: "/driver_listing/pay_driver/",
+        method:"POST",
+        data: {"paid_amount":paid_amount,'id':required_driver_id,'payment_date':payment_date},
+        success: function(res){
+            $("#balance").val(res.balance)
+        }
+    })
+})
+
+$("#deduct_rent_btn").click(function(e){
+    var rent = $("#rent").val()
+    var payment_date = $("#payment_date").val()
+    var required_driver_id = "{{required_driver.id}}" 
+    $.ajax({
+        url: "/driver_listing/deduct_rent/",
+        method:"POST",
+        data: {"rent":rent,'id':required_driver_id,'payment_date':payment_date},
+        success: function(res){
+            $("#balance").val(res.balance)
+        }
+    })
+})
+
+
+
+
+</script>
+
+
+{% endblock 'js' %}
