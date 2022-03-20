@@ -119,7 +119,7 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/Static/' 
-STATIC_ROOT = '/home/wshii/wayne-django-payment-tracker'
+STATIC_ROOT = '/home/wshii/wayne-django-payment-tracker/Static-django-admin'
 
 
  
