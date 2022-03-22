@@ -33,6 +33,8 @@ def synchronizeDriverOwedAmount():
 @login_required(login_url='/login')
 def index(request):
     context = {'title':"Driver Listing"}
+    today_date = datetime.now(timezone(settings.TIME_ZONE)). strftime("%m/%d/%Y")
+    context['today_date'] = today_date
     available_drivers = DriverTable.objects.all()
     
     synchronizeDriverOwedAmount()
