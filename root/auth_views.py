@@ -26,8 +26,10 @@ def login_page(request):
             return render(request, 'login.html',{"error":"Sorry, Email or password is incorrect !","page_title":"Login"})
       
          
-         
-    return render(request, 'root/login_page.html', {"page_title":"Login"} )
+    context = {"page_title":"Login"}      
+    today_date = datetime.now(timezone(settings.TIME_ZONE)). strftime("%m/%d/%Y")
+    context['today_date'] = today_date
+    return render(request, 'root/login_page.html', context)
 
 
 def logout_page(request):
