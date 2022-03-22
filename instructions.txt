@@ -1,0 +1,20 @@
+Timezone is America/Chicago
+
+1. Login into the site
+username: admin
+password: admin
+
+
+
+2. Dashboard / Driver Listing page shows all drivers in Datatable
+2.1 Paid today is automated. when you click on pag button balanace in increased and it get green for current date
+2.2 Rent Deduction column tells either a driver has been deducted (don't owe) or not (owe)
+2.3 You can add new driver using following link
+https://wshii.pythonanywhere.com/driver_listing/add_driver/
+2.4 Update driver either by clicking on Driver Name  or edit icon (blue pen icon)
+2.5 Delete driver delete icon (red trash bin icon)
+
+
+3 After clicking on driver name and being on edit form there you can change all data
+3.1 Pay the driver and it will increase balanace
+3.2 Deduct Rent will decrease balanace and also will take care of Owe amount / Owe Field
