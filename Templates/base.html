@@ -58,15 +58,27 @@
  
 
 <center>
-  <div class="z-depth-2" style="margin: 2%;padding:0px">
-    <h4>Date: {{today_date}}</h4>
+  <div  style="padding:0px">
+    <h6>Date: {{today_date}}</h6>
   </div>
+</center>
+ 
+<center class="container">
+  <center>
+    {% if message  %}
+      <h4 class="green-text">{{message}}</h4>
+    {% endif %}
+  
+     {% if error  %}
+      <h4 class="red-text">{{error}}</h4>
+    {% endif %}
+  
+    
+  </center>
 </center>
 
 
-{% block 'mainbody' %}
-
- 
+{% block 'mainbody' %} 
 {% endblock 'mainbody' %}
           
           

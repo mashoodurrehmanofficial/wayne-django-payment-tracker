@@ -8,22 +8,26 @@ from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login,logout
 from pytz import timezone 
-
+from .emailSender import send_email
+from django.contrib.auth.models import User
 
 
 def synchronizeDriverOwedAmount():
-    available_drivers = DriverTable.objects.all()
+    available_drivers = Profile.objects.all()
     for driver in available_drivers:
         # print("-"*10)
+        pre_owned_amount = 0
         today_date = datetime.now(timezone(settings.TIME_ZONE)).date()
+        # if driver.last_rent_deduction_date == today_date:
+        pre_owned_amount = driver.owed 
+            
+            
         last_rent_deduction_date = driver.last_rent_deduction_date 
-        
         days = (today_date - last_rent_deduction_date).days
-        
-        owed_amount = int(days)*60
+        owed_amount = pre_owned_amount + (int(days)*60)
         driver.owed = owed_amount
         driver.save()
-        
+    pass
         # print(days)
  
 
@@ -32,21 +36,24 @@ def synchronizeDriverOwedAmount():
 # Create your views here.
 @login_required(login_url='/login')
 def index(request):
-    context = {'title':"Driver Listing"}
-    today_date = datetime.now(timezone(settings.TIME_ZONE)). strftime("%m/%d/%Y")
-    context['today_date'] = today_date
-    available_drivers = DriverTable.objects.all()
+    context = {'title':"Driver Listing"} 
+    available_drivers = Profile.objects.all()
     
     synchronizeDriverOwedAmount()
          
         
         
     
-    available_drivers = DriverTable.objects.all()
+    available_drivers = Profile.objects.filter(user__is_superuser=False)
     
     today_date = datetime.now(timezone(settings.TIME_ZONE)). strftime("%m/%d/%Y")
     context['today_date'] = today_date
     context['available_drivers'] = available_drivers
+    context['profile'] = Profile.objects.get(user=request.user)
+    
+    
+    
+    
     return render(request, 'root/index.html',context)
 
  
@@ -54,20 +61,37 @@ def edit_driver(request,id=None):
     
     if request.method=="POST":
         name = request.POST['name']
+        email = request.POST['email']
+        password = request.POST['password']
         taxi_number = request.POST['taxi_number']
         balance = request.POST['balance']
         owed = request.POST['owed']
         required_driver = None
         if id:
-            required_driver = DriverTable.objects.get(id=id)
+            required_driver = Profile.objects.get(id=id)
+            required_user = required_driver.user
         else:
-            required_driver = DriverTable()
+            required_driver = Profile()
+            required_user = User()
     
-        required_driver.name = name
+        
+    
+        required_user.username = name
+        required_user.email = email
+        required_user.set_password(password)
+        required_user.save()
+        
+        required_driver = Profile.objects.get(user=required_user)
+    
+        required_driver.password = password
         required_driver.taxi_number = taxi_number
         required_driver.balance = balance
         required_driver.owed = owed
+        required_driver.verified = True
         required_driver.save()
+        
+        print("owed = ", required_driver.owed)
+        
         return redirect("/")
     
     
@@ -75,7 +99,7 @@ def edit_driver(request,id=None):
     context = {'title':"Edit Driver Data" if id else "Add Driver"} 
     synchronizeDriverOwedAmount()
     
-    required_driver = DriverTable.objects.filter(id=id)
+    required_driver = Profile.objects.filter(id=id)
     if required_driver:
         required_driver = required_driver.first()
     context['required_driver'] = required_driver 
@@ -95,7 +119,12 @@ def edit_driver(request,id=None):
  
  
 def delete_driver(request,id):
-    required_driver = DriverTable.objects.filter(id=id)
+    required_driver = Profile.objects.filter(id=id)
+    if required_driver:
+        
+        required_user = required_driver.first().user
+        required_user.delete()
+        
     required_driver.delete() 
     print(required_driver, " deleted !")
     return redirect("/")
@@ -111,7 +140,7 @@ def pay_driver(request):
     
     
     paid_amount = int(request.POST['paid_amount'])
-    required_driver = DriverTable.objects.get(id=id)
+    required_driver = Profile.objects.get(id=id)
     required_driver.balance = required_driver.balance + paid_amount
     required_driver.last_paid_date = payment_date
     required_driver.save()
@@ -134,8 +163,13 @@ def deduct_rent(request):
     payment_date = request.POST['payment_date']
     payment_date = datetime.strptime(payment_date, '%m/%d/%Y').date()
     
-    required_driver = DriverTable.objects.get(id=id)
+    required_driver = Profile.objects.get(id=id)
     required_driver.balance = required_driver.balance - rent
+    required_driver.owed = required_driver.owed - rent
+    
+    if required_driver.owed <0:
+        required_driver.owed = 0
+    
     required_driver.last_rent_deduction_date = payment_date
     required_driver.save()
     return JsonResponse({"balance":int(required_driver.balance)})

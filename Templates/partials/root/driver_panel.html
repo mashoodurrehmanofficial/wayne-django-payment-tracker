@@ -1,0 +1,74 @@
+{% block 'mainbody' %}
+ 
+
+
+
+<center>
+    <h5 >
+        Hello <b>{{profile.user.username}}</b>. Your Taxi Number is <b>{{profile.taxi_number}}</b>
+    </h5>
+</center>
+
+<div style="display: flex;flex-direction: row;justify-content:space-around;align-items:center">
+
+    <div  class="z-depth-1" style="margin: 5%;border-radius:10px;padding: 5px 5%">
+        <div>
+            <h5><b>Total Balance</b></h5>
+            <h5> <b>$ {{profile.balance}}  </b> </h5> 
+        </div>
+    </div>
+    <div  class="z-depth-1" style="margin: 5%;border-radius:10px;padding: 5px 5%">
+        <div>
+            <h5><b>Owed Amount</b></h5>
+            <h5> <b>$ {{profile.owed}} </b> </h5> 
+        </div>
+    </div>
+
+
+</div>
+
+
+
+{% endblock 'mainbody' %}
+
+
+{% block 'js' %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.sidenav');
+    var instances = M.Sidenav.init(elems, {
+      'Sidenav':true,
+      
+    });
+    })
+</script>
+{% endblock 'js' %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

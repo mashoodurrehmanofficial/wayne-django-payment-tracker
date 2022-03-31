@@ -1,0 +1,62 @@
+{% extends 'base.html' %}v
+{% block 'mainbody' %}
+
+
+
+<br>
+
+<div class="container">
+ 
+  
+<div class="container">
+    <form action="/register/" method="post" class='z-depth-2'  style="padding: 20px;border-radius: 10px;"> {% csrf_token %}
+        <center><h3><b>Regsiter Form</b></h3></center>
+        
+          <div class="input-field ">
+            <input id="username" name="username" type="text" class="validate" required >
+            <label for="username">Username</label>
+          </div>
+        
+          <div class="input-field ">
+            <input id="email" name="email" type="email" class="validate" required >
+            <label for="email">Email</label>
+          </div>
+
+          <div class="input-field ">
+            <input id="taxi_number" name="taxi_number" type="text" class="validate" required >
+            <label for="taxi_number">Taxi Number</label>
+          </div>
+      
+          <div class="input-field ">
+            <input id="password" type="password" name="password" class="validate" required>
+            <label for="password">Password</label>
+          </div>
+
+        
+   
+          <!-- <a href="/account/signup/"> <u>Create a new account</u> </a> <br>
+          <a href="/account/send_reset_url/"> <u>Reset password</u> </a>
+     
+           -->
+        <a class=" left" href="/login/"> <u>Login</u> </a>
+        <button class="btn nextbtn right" >Register</button>
+
+<br><br>
+
+    </form>
+</div>
+</div>
+
+
+
+
+
+
+
+
+ 
+
+
+{% endblock 'mainbody' %}
+{% block 'js' %}
+{% endblock 'js' %}

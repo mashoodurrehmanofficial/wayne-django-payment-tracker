@@ -6,24 +6,14 @@
 <br>
 
 <div class="container">
-  <center>
-    {% if message  %}
-      <h4 class="green-text">{{message}}</h4>
-    {% endif %}
-  
-     {% if error  %}
-      <h4 class="red-text">{{error}}</h4>
-    {% endif %}
-  
-    
-  </center>
+
   
 <div class="container">
     <form action="/login/" method="post" class='z-depth-2'  style="padding: 20px;border-radius: 10px;"> {% csrf_token %}
         <center><h3><b>Login Form</b></h3></center>
         <div class="input-field ">
-            <input id="username" name="username" type="text" class="validate" required >
-            <label for="username">Username</label>
+            <input id="email" name="email" type="text" class="validate" required >
+            <label for="email">Email</label>
           </div>
      
           <div class="input-field ">
@@ -36,6 +26,8 @@
           <a href="/account/send_reset_url/"> <u>Reset password</u> </a>
      
            -->
+           <a class=" left" href="/register/"> <u>Create New Account</u> </a> <br>
+           <a class=" left" href="/send_password_rest_link/"> <u>Forgot Password</u> </a>
         <button class="btn nextbtn right" >Login</button>
 
 <br><br>

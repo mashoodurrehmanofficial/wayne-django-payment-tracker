@@ -35,19 +35,36 @@
 
                 <form action="" method="post"> {% csrf_token %}
                     <div class="row"> 
-                        <div class="input-field col s12 l3 m3">
-                            <input id="name" type="text" name="name" class="validate" value="{{required_driver.name}}">
+
+                        
+                        <div class="input-field col s12 l2 m2" >
+                            <input id="name" type="text" name="name" class="validate" value="{{required_driver.user.username}}" >
                             <label for="name">Driver Name</label>
                         </div>
-                        <div class="input-field col s12 l3 m3">
+
+                        <div class="input-field col s12 l2 m2" >
+                            <input id="email" type="email" name="email" class="validate" value="{{required_driver.user.email}}" >
+                            <label for="email">Driver Email</label>
+                        </div>
+                        <div class="input-field col s12 l2 m2" >
+                            <input id="password" type="text" name="password" class="validate" value="{{required_driver.password}}" >
+                            <label for="password">Password</label>
+                        </div>
+
+                     
+
+                        
+
+                        <div class="input-field col s12 l2 m2">
                             <input id="taxi_number" type="text" name="taxi_number" class="validate" value="{{required_driver.taxi_number}}">
                             <label for="taxi_number">Taxi Number</label>
                         </div>
-                        <div class="input-field col s12 l3 m3">
+                        <div class="input-field col s12 l2 m2">
                             <input id="balance" type="number" name="balance" class="validate" value="{{required_driver.balance}}">
                             <label for="balance">Balance</label>
                         </div>  
-                        <div class="input-field col s12 l3 m3">
+ 
+                        <div class="input-field col s12 l2 m2">
                             <input id="owed" type="number" name="owed" class="validate" value="{{required_driver.owed}}">
                             <label for="balance">Owed</label>
                         </div>  
