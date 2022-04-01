@@ -23,6 +23,7 @@ class Profile(models.Model):
     
     balance = models.FloatField(default=0,blank=True)
     owed = models.FloatField(default=0,blank=True)
+    temp_owed = models.FloatField(default=0,blank=True)
     is_rent_deducted_today = models.BooleanField(default=False)
     is_paid_today = models.BooleanField(default=False)
     last_rent_deduction_date = models.DateField( null=True,blank=True,default=now)

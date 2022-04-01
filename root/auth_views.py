@@ -156,6 +156,30 @@ def passwordResetForm(request,password_reset_code):
 
 
 
+def change_password(request): 
+    context = {"page_title":"Reset Password"}     
+    if request.method=='POST':
+        password = request.POST['password']
+        required_user  = request.user
+        required_user.set_password(password)
+        required_user.save()
+        user = authenticate(username=required_user.username,password=password)
+        if user is not None:
+            login(request, user)   
+            return redirect("/")     
+
+  
+  
+      
+    return render(request, 'root/change_password.html', context)
+
+
+
+
+
+
+
+
 def resendEmailVerificationLink(request):
     pass
 

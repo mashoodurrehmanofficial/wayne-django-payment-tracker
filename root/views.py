@@ -19,11 +19,21 @@ def synchronizeDriverOwedAmount():
         pre_owned_amount = 0
         today_date = datetime.now(timezone(settings.TIME_ZONE)).date()
         # if driver.last_rent_deduction_date == today_date:
-        pre_owned_amount = driver.owed 
-            
+        pre_owned_amount = driver.temp_owed 
             
         last_rent_deduction_date = driver.last_rent_deduction_date 
         days = (today_date - last_rent_deduction_date).days
+         
+        
+        if datetime.now(timezone(settings.TIME_ZONE)).hour<=18:
+            days = days-1
+        
+        print("days = ", days)
+        
+        if days<0:
+            days=0
+            print("days = ", days)
+        
         owed_amount = pre_owned_amount + (int(days)*60)
         driver.owed = owed_amount
         driver.save()
@@ -35,7 +45,7 @@ def synchronizeDriverOwedAmount():
 
 # Create your views here.
 @login_required(login_url='/login')
-def index(request):
+def index(request,delinquent_drivers=None):
     context = {'title':"Driver Listing"} 
     available_drivers = Profile.objects.all()
     
@@ -45,6 +55,11 @@ def index(request):
         
     
     available_drivers = Profile.objects.filter(user__is_superuser=False)
+    
+    if delinquent_drivers:
+        available_drivers = available_drivers.filter(owed__gte=0)
+    
+    
     
     today_date = datetime.now(timezone(settings.TIME_ZONE)). strftime("%m/%d/%Y")
     context['today_date'] = today_date
@@ -163,12 +178,15 @@ def deduct_rent(request):
     payment_date = request.POST['payment_date']
     payment_date = datetime.strptime(payment_date, '%m/%d/%Y').date()
     
-    required_driver = Profile.objects.get(id=id)
-    required_driver.balance = required_driver.balance - rent
+    required_driver = Profile.objects.get(id=id) 
     required_driver.owed = required_driver.owed - rent
+    required_driver.temp_owed = required_driver.temp_owed - rent
     
     if required_driver.owed <0:
         required_driver.owed = 0
+    
+    if required_driver.temp_owed <0:
+        required_driver.temp_owed = 0
     
     required_driver.last_rent_deduction_date = payment_date
     required_driver.save()

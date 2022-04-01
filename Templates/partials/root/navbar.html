@@ -14,6 +14,8 @@
 
             {% if user.is_authenticated %}
             <li><a href="/">Dashboard</a></li>
+            <li><a href="/delinquent_drivers">Delinquent Drivers</a></li>
+            <li><a href="/change_password/">Change Password</a></li>
             <li><a href="/logout/">Logout</a></li>
               
             {% else %}
@@ -51,6 +53,10 @@
 <ul style="width: 250px;" class="sidenav" id="mobile-demo">
   {% if user.is_authenticated %}
   <li><a href="/">Dashboard</a></li>
+            <li><a href="/delinquent_drivers">Delinquent Drivers</a></li>
+
+  <li><a href="/change_password/">Change Password</a></li>
+
   <li><a href="/logout/">Logout</a></li>
     
   {% else %}
