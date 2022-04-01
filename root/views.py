@@ -57,7 +57,7 @@ def index(request,delinquent_drivers=None):
     available_drivers = Profile.objects.filter(user__is_superuser=False)
     
     if delinquent_drivers:
-        available_drivers = available_drivers.filter(owed__gte=0)
+        available_drivers = available_drivers.filter(owed__gt=0)
     
     
     
